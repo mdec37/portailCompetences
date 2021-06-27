@@ -1,0 +1,48 @@
+{% extends '@EasyAdmin/layout.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block main %}
+    <style>
+        .container { margin: 0 auto; max-width: 1000px; width: 95%; font: 18px/1.5 sans-serif; }
+        .flex { display: flex; }
+        * { margin: 0; }
+        .head { justify-content: space-around; border: 1px solid darkslategrey; padding: 20px; margin-top: 25px; }
+        .countElement, .lastUsers { margin: 20px 0 0 0; }
+        .lienProfil { margin-top: 20px; }
+    </style>
+
+    <div class="container">
+        {% if is_granted ('ROLE_ADMIN') %}
+            <h1>Bonjour {{ app.user.prenom }} {{ app.user.prenom }}</h1>
+            <small>Vous êtes connectés en tant qu'administrateur.</small>
+
+            <div class="head flex">
+                <div class="count">
+                    <p class="countElement">Vous avez :
+                    <ul>
+                        <li><span class="large">{{ users }}</span> utilisateurs</li>
+                        <li><span class="large">{{ competences }}</span> compétences</li>
+                        <li><span class="large">{{ experiences }}</span> expériences</li>
+                    </ul>
+                    </p>
+                </div>
+
+                <div class="users">
+                    <p class="lastUsers">3 derniers utilisateurs inscrits :
+                    <ul>
+                        {% for user in lastUser %}
+                            <li>{{ user.prenom }} {{ user.nom }}</li>
+                        {% endfor %}
+                    </ul>
+                    </p>
+                </div>
+            </div>
+
+            <p class="lienProfil"><a href="{{ path("show") }}">Voir le profil complet des utilisateurs</a></p>
+
+        {% endif %}
+    </div>
+
+
+{% endblock %}

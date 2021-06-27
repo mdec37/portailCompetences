@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Portail de compétences{% endblock %}
+
+{% block body %}
+<style>
+    .container { margin: 160px auto 0 auto; max-width: 1000px; width: 95%; font: 18px/1.5 sans-serif; }
+    .flex { display: flex; }
+    .boutons { margin: 0 auto; justify-content: space-around; max-width: 300px; }
+     h1 { text-align: center; font-size: 55px; text-transform: uppercase; margin-bottom: 0; }
+</style>
+
+<div class="container">
+    <h1>Portail de compétences</h1>
+
+    <div class="boutons flex">
+        <p><a class="connection-button" href="{{ path('app_login') }}">Se connecter</a></p>
+        <p><a class="inscription-button" href="{{ path('register') }}">S'inscrire</a></p>
+    </div>
+
+
+</div>
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Compétence{% endblock %}
+
+{% block body %}
+    <style>
+        .container { margin: 0 auto; max-width: 1000px; width: 95%; font: 18px/1.5 sans-serif; }
+        h1 { text-align: center; }
+        .form { margin: 0 auto; width: 450px; }
+        .inputCompetences { display: block; padding: 10px; width: 400px; margin-bottom: 15px; }
+        .buttonCompetences { padding: 10px; text-transform: uppercase; margin-top: 15px; }
+    </style>
+
+    <span><i><a href="{{ path('profil') }}">Retour au profil</a></i></span>
+    <div class="container">
+        <h1>Gestion des compétences</h1>
+
+        <div class="form">
+            {{ form(form) }}
+        </div>
+
+    </div>
+{% endblock %}

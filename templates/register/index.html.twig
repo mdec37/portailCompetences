@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <style>
+        .containerRegister { margin: 0 auto; max-width: 1000px; width: 95%; font: 18px/1.5 sans-serif; }
+        h1 { text-align: center; }
+        .form { margin: 0 auto; width: 450px; }
+        .inputRegister { display: block; padding: 10px; width: 400px; margin-bottom: 15px; }
+        .buttonRegister { padding: 10px; text-transform: uppercase; }
+    </style>
+
+    <span><i><a href="{{ path('home') }}">Retour à l'accueil</a></i></span>
+    <div class="containerRegister">
+        <h1>Inscription</h1>
+
+        <div class="form">
+            {{ form(form) }}
+        </div>
+
+    </div>
+{% endblock %}

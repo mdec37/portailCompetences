@@ -1,0 +1,86 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profils complets{% endblock %}
+
+{% block body %}
+    <style>
+        .container { margin: 0 auto; max-width: 1200px; width: 95%; font: 18px/1.5 sans-serif; }
+        h1 { text-align: center; }
+        .flex { display: flex;}
+        .usersListe { flex-wrap: wrap; justify-content: space-around; margin: 0 auto; }
+        .cards { width: 475px; border: 1px solid darkslategrey; margin: 15px; padding: 15px; }
+        ul, p { margin: 0; }
+    </style>
+
+    <span><i><a href="{{ path('dashboard') }}">Retour au dashboard</a></i></span>
+
+    <div class="container">
+        <h1>Profils complets des utilisateurs</h1>
+
+        <div class="usersListe flex">
+            {% for user in userListe %}
+            <div class="cards">
+                <ul>
+                    <li>Id : {{ user.id }}</li>
+                    <li>Nom : {{ user.nom }}</li>
+                    <li>Prénom : {{ user.prenom }}</li>
+                    <li>Email : {{ user.email }}</li>
+                    {% if user.adresse %}
+                        {% if user.adresse.telephone %}
+                            <li>Téléphone : {{ user.adresse.telephone }}</li>
+                        {% endif %}
+                        <li>
+                            Adresse :
+                            <ul>
+                                <li>{{ user.adresse.numero }} {{ user.adresse.adresse }}</li>
+                                <li>{{ user.adresse.codePostal }} {{ user.adresse.ville }}</li>
+                            </ul>
+                        </li>
+                    {% endif %}
+                    <br>
+                    <li>
+                        Compétences :
+                        {% if user.competences %}
+                        <ul>
+                            {% for competences in user.competences %}
+                                <li>{% if competences.aime %} ♥ {% else%} ♡{% endif %}
+                                    {{ competences.nom}} -
+                                    Niveau : {{ competences.niveau}}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        {% else %}
+                            <span>Aucune expérience spécifiée</span>
+                        {% endif %}
+                    </li>
+                    <li>
+                        Expériences :
+                        <ul>
+                            {% for experiences in user.experiences %}
+                                <li>
+                                    <p>Libellé : {{ experiences.nom }}</p>
+                                    <p>Entreprise : {{ experiences.entreprisesTxt }}</p>
+                                    <p>Description : {{ experiences.description }}</p>
+                                </li>
+                            {% endfor %}
+                        </ul>
+
+                    </li>
+
+
+
+
+                    </li>
+                </ul>
+            </div>
+            {% endfor %}
+        </div>
+
+
+
+    </div>
+
+
+
+
+{% endblock %}

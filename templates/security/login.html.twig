@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+    <style>
+        .containerLogin { margin: 0 auto; max-width: 1000px; width: 95%; font: 18px/1.5 sans-serif; }
+        h1 { text-align: center; }
+        form { margin: 0 auto; width: 450px; }
+        /*.connexion {  }*/
+        .inputLogin { display: block; padding: 10px; width: 400px; margin-bottom: 15px; }
+        .buttonLogin { padding: 10px; text-transform: uppercase; }
+    </style>
+
+    <span><i><a href="{{ path('home') }}">Retour à l'accueil</a></i></span>
+    <div class="containerLogin">
+        <form method="post">
+            {% if error %}
+                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            {% endif %}
+
+            {% if app.user %}
+                <div class="mb-3">
+                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                </div>
+            {% endif %}
+
+            <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+            <div class="connexion">
+                <div class="email">
+                    <label for="inputEmail">Email</label>
+                    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="inputLogin" autocomplete="email" required autofocus>
+                </div>
+                <div class="password">
+                    <label for="inputPassword">Password</label>
+                    <input type="password" name="password" id="inputPassword" class="inputLogin" autocomplete="current-password" required>
+                </div>
+
+                <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+                <input type="hidden" name="_target_path" value="{{ path('dashboard') }}" />
+
+                <input type="submit" name="login" class="buttonLogin">
+            </div>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profil{% endblock %}
+
+{% block body %}
+    <style>
+        .container { margin: 2em auto 5em auto; max-width: 1000px; width: 95%; font: 18px/1.5 sans-serif; }
+        .flex { display: flex; }
+        .head { justify-content: space-between; align-items: center; }
+        * { margin: 0; }
+        p.role { margin-top: 5px; }
+        p.link-dashboard { margin: 40px 0; }
+        .profil { justify-content: space-around; border: 1px solid darkslategrey; padding: 20px; margin-top: 25px; }
+        .competences, .experiences { margin: 30px 0 30px 15px; }
+    </style>
+
+    <div class="container">
+        <div class="head flex">
+            <h1>Bienvenue {{ app.user.prenom }} {{ app.user.nom }}</h1>
+            <p><a class="inscription-button" href="{{ path('app_logout') }}">Se déconnecter</a></p>
+        </div>
+
+        <p class="role"><small> Profil <i>
+            {% if is_granted("ROLE_CANDIDAT") %}candidat{% endif %}
+            {% if is_granted("ROLE_COLLABORATEUR") %}collaborateur{% endif %}
+            {% if is_granted("ROLE_ADMIN") %}administrateur{% endif %}</i></small>
+        </p>
+
+        {% if is_granted("ROLE_ADMIN") %}
+            <p class="link-dashboard">Connection au <a class="lien" href="{{ path('dashboard') }}">dashboard</a></p>
+        {% endif %}
+
+        <div class="profil flex">
+            <div class="informations">
+                <h2>Mes informations</h2>
+                <ul>
+                    <li>Nom : {{ app.user.nom }}</li>
+                    <li>Prénom : {{ app.user.prenom }}</li>
+                    <li>E-mail : {{ app.user.email }}</li>
+                    {% if app.user.adresse %}
+                    <li>Numéro : {{ app.user.adresse.telephone }}</li>
+                    {% endif %}
+                </ul>
+
+                <p>Modifier mes infos : <a href="{{ path('editprofil', {'id': app.user.id}) }}">ici</a></p>
+            </div>
+
+            <div class="adresse">
+                {% if app.user.adresse %}
+                    <h2>Mon adresse</h2>
+                    <ul>
+                        <li>Numéro : {{ app.user.adresse.numero }}</li>
+                        <li>Adresse : {{ app.user.adresse.adresse }}</li>
+                        <li>Code postal : {{ app.user.adresse.codePostal }}</li>
+                        <li>Ville : {{ app.user.adresse.ville }}</li>
+                    </ul>
+
+                    <p>Modifier mon adresse : <a href="{{ path('editadresse', {'id': app.user.adresse.id})}}">ici</a> </p>
+                {% else %}
+                    <i>Compléter mon profil : <a href="{{ path('newadresse', {'id': app.user.id})}}">ici</a> </i>
+                {% endif %}
+            </div>
+        </div>
+
+        {% if is_granted("ROLE_COLLABORATEUR") %}
+            <div class="competences">
+                <h2>Mes compétences</h2>
+                <p>Ajouter de nouvelles compétences : <a href="{{ path('newCompetences', {'id': app.user.id})}}">ici</a> </p>
+                {% if app.user.competences %}
+                <ul>{% for competences in app.user.competences %}
+                        <li>{% if competences.aime %}
+                                <small>♥</small>
+                            {% else %}
+                                <small>♡</small>
+                            {% endif %} {{ competences.nom}} - Niveau : {{ competences.niveau}} - <small><a href="{{ path('editCompetences', {'id': competences.id})}}" >éditer</a> </small></li>
+
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            <div class="experiences">
+                <h2>Mes expériences</h2>
+                <p>Ajouter de nouvelles expériences : <a href="{{ path('newExperiences', {'id': app.user.id})}}">ici</a> </p>
+                {% if app.user.experiences %}
+                <ul>{% for experience in app.user.experiences %}
+                        <li>{{ experience.nom}} à {{ experience.entreprisesTxt}} - <small><a href="{{ path('editExperiences', {'id': experience.id})}}">éditer</a></small>
+                            <p>{{ experience.description}}</p></li>
+
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}
